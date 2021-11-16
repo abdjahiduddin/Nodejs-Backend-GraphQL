@@ -1,2 +1,2 @@
-# Nodejs-Backend-GraphQL
-Nodejs Backend GraphQL
+# Nodejs Backend - GraphQL
+Udemy Course
