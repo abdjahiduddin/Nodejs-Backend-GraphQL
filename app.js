@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const { graphqlHTTP } = require("express-graphql");
 const dotenv = require("dotenv");
+const helmet = require("helmet");
+const compression = require("compression");
+const morgan = require("morgan");
 
 dotenv.config();
 
@@ -41,9 +44,9 @@ const fileFilter = (req, file, cb) => {
     cb(null, true);
   } else {
     cb(null, false);
-    const err = new Error("Attached file is not an image (jpeg/jpg/png)")
-    err.statusCode = 422
-    return cb(err)
+    const err = new Error("Attached file is not an image (jpeg/jpg/png)");
+    err.statusCode = 422;
+    return cb(err);
   }
 };
 
@@ -65,6 +68,15 @@ app.use((req, res, next) => {
   next();
 });
 
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan("combined", { stream: accessLogStream }));
+
 app.use((req, res, next) => {
   console.log(req.method + " " + req.path + " - " + req.hostname);
   next();
@@ -84,17 +96,15 @@ app.put("/upload-image", (req, res, next) => {
   }
 
   if (req.body.oldImage === "undefined") {
-    req.body.oldImage = undefined
+    req.body.oldImage = undefined;
   }
 
   if (!req.file && req.body.oldImage === undefined) {
-    const err = new Error(
-      "No image uploaded"
-      );
-      err.statusCode = 422;
-      throw err;
+    const err = new Error("No image uploaded");
+    err.statusCode = 422;
+    throw err;
   }
-    
+
   let image = req.body.oldImage;
 
   if (req.file) {
