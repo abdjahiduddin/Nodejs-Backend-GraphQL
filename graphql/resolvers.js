@@ -62,7 +62,8 @@ module.exports = {
     const savedUser = await newUser.save();
     const userId = savedUser._id.toString();
 
-    const userPath = path.join(__dirname, "..", "images", userId);
+    // const userPath = path.join(__dirname, "..", "images", userId);
+    const userPath = path.join(__dirname, "..", "images");
 
     if (!fs.existsSync(userPath)) {
       fs.mkdir(userPath, (err) => {
