@@ -29,7 +29,9 @@ const fileStorage = multer.diskStorage({
         if (err) console.log(err);
       });
     }
+    // cb(null, "images/" + userDir);
     cb(null, "images/" + userDir);
+
   },
   filename: (req, file, cb) => {
     cb(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
