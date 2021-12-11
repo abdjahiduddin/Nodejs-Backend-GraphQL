@@ -81,6 +81,7 @@ app.use(
       "script-src": [
         "'self'",
         "'unsafe-inline'",
+        "'unsafe-eval'",
         "https://message-graphql.herokuapp.com/",
       ],
     },
