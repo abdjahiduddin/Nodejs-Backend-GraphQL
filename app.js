@@ -30,7 +30,7 @@ const fileStorage = multer.diskStorage({
       });
     }
     // cb(null, "images/" + userDir);
-    cb(null, "images/" + userDir);
+    cb(null, "images/");
 
   },
   filename: (req, file, cb) => {
@@ -110,7 +110,8 @@ app.put("/upload-image", (req, res, next) => {
   let image = req.body.oldImage;
 
   if (req.file) {
-    image = "images/" + req.userId + "/" + req.file.filename;
+    // image = "images/" + req.userId + "/" + req.file.filename;
+    image = "images/" + req.file.filename;
   }
 
   if (image !== req.body.oldImage && req.body.oldImage !== undefined) {
