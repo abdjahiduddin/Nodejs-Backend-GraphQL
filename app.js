@@ -78,7 +78,7 @@ app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-      "script-src-attr": [
+      "script-src": [
         "'self'",
         "'unsafe-inline'",
         "https://message-graphql.herokuapp.com/",
