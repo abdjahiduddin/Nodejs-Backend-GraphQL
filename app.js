@@ -31,7 +31,6 @@ const fileStorage = multer.diskStorage({
     }
     // cb(null, "images/" + userDir);
     cb(null, "images/");
-
   },
   filename: (req, file, cb) => {
     cb(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
@@ -75,7 +74,18 @@ const accessLogStream = fs.createWriteStream(
   { flags: "a" }
 );
 
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "script-src-attr": [
+        "'self'",
+        "'unsafe-inline'",
+        "https://message-graphql.herokuapp.com/",
+      ],
+    },
+  })
+);
 app.use(compression());
 app.use(morgan("combined", { stream: accessLogStream }));
 
