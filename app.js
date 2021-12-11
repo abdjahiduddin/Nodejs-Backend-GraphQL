@@ -169,7 +169,7 @@ mongoose
   .then((connect) => {
     console.log("Connected to database");
 
-    app.listen(8080, () => {
+    app.listen(process.env.PORT || 8080, () => {
       console.log("Listen on port 8080");
     });
   })
